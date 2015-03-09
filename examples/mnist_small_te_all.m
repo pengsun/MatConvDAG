@@ -5,8 +5,8 @@ function [err_ep, err] =  mnist_small_te_all(varargin)
 if ( nargin==0 )
   ep = 1 : 30;
   batch_sz = 128;
-  dir_mo = fullfile(vl_rootnn,'\examples_dag2\mo_zoo\mnist_small\cpu_lenetDropout');
-  fn_data = fullfile(vl_rootnn,'\examples\data\mnist_small_cv5\imdb.mat');
+  dir_mo = fullfile(dag_path.root,'\examples\mo_zoo\mnist_small\lenetDropout');
+  fn_data = fullfile(dag_path.root,'\examples\data\mnist_small_cv5\imdb.mat');
   fn_mo_tmpl = 'dag_epoch_%d.mat';
 elseif ( nargin==5 )
   ep = varargin{1};

@@ -1,4 +1,4 @@
-classdef tfw_gpu_lenetTriCon < tfw_i
+classdef tfw_lenetTriCon < tfw_i
   %tfw_gpu_lenetTriCon Lenet, triangular connection for the last hidden layer
   %   The connection is like Fig 2 of "Deep Learning Face Representation from 
   %   Predicting 10,000 Classes" or Fig 1 of "Traffic Signs and Pedestrians
@@ -13,23 +13,23 @@ classdef tfw_gpu_lenetTriCon < tfw_i
   
   methods 
     
-    function ob = tfw_gpu_lenetTriCon()
+    function ob = tfw_cpu_lenetTriCon()
     % Initialize the DAG net
     
       %%% set the connection structure
       f = 1/100;
       % 1: conv, param
       tfs{1}        = tf_conv();
-      tfs{1}.p(1).a = gpuArray( f*randn(5,5,1,20, 'single') ); % kernel
-      tfs{1}.p(2).a = gpuArray( zeros(1, 20, 'single') ); % bias
+      tfs{1}.p(1).a = f*randn(5,5,1,20, 'single'); % kernel
+      tfs{1}.p(2).a = zeros(1, 20, 'single'); % bias
       % 2: pool
       tfs{2}   = tf_pool();
       tfs{2}.i = tfs{1}.o;
       % 3: conv, param
       tfs{3}        = tf_conv();
       tfs{3}.i      = tfs{2}.o;
-      tfs{3}.p(1).a = gpuArray( f*randn(5,5,20,50, 'single') );
-      tfs{3}.p(2).a = gpuArray( zeros(1,50,'single') );
+      tfs{3}.p(1).a = f*randn(5,5,20,50, 'single');
+      tfs{3}.p(2).a = zeros(1,50,'single');
       % 4: pool
       tfs{4}   = tf_pool();
       tfs{4}.i = tfs{3}.o;
@@ -43,8 +43,8 @@ classdef tfw_gpu_lenetTriCon < tfw_i
       % 7: conv, param
       tfs{7}        = tf_conv();
       tfs{7}.i      = tfs{6}.o(1);
-      tfs{7}.p(1).a = gpuArray( f*randn(3,3,50,60, 'single') );
-      tfs{7}.p(2).a = gpuArray( zeros(1,60,'single') );
+      tfs{7}.p(1).a = f*randn(3,3,50,60, 'single');
+      tfs{7}.p(2).a = zeros(1,60,'single');
       % 8: concatenator
       tfs{8}      = tf_cat(2);
       tfs{8}.i(1) = tfs{7}.o;
@@ -53,8 +53,8 @@ classdef tfw_gpu_lenetTriCon < tfw_i
       % 9: full connection, param
       tfs{9}        = tf_conv();
       tfs{9}.i      = tfs{8}.o;
-      tfs{9}.p(1).a = gpuArray( f*randn(1,1,1040,10, 'single') );
-      tfs{9}.p(2).a = gpuArray( zeros(1,10,'single') );
+      tfs{9}.p(1).a = f*randn(1,1,1040,10, 'single');
+      tfs{9}.p(2).a = zeros(1,10,'single');
       % 10: dropout
       tfs{10}   = tf_dropout();
       tfs{10}.i = tfs{9}.o;
@@ -75,13 +75,13 @@ classdef tfw_gpu_lenetTriCon < tfw_i
     
     function ob = fprop(ob)
        %%% Outer Input --> Internal Input
-       ob.tfs{1}.i.a     = gpuArray( ob.i(1).a ); % X_bat
-       ob.tfs{11}.i(2).a = gpuArray( ob.i(2).a ); % Y_bat
+       ob.tfs{1}.i.a     = ob.ab.cvt_data( ob.i(1).a ); % X_bat
+       ob.tfs{11}.i(2).a = ob.ab.cvt_data( ob.i(2).a ); % Y_bat
        
        %%% fprop for all
        for i = 1 : numel( ob.tfs )
          ob.tfs{i} = fprop(ob.tfs{i});
-         wait(gpuDevice);
+         ob.ab.sync();
        end
        
        %%% Internal Output --> Outer Output: set the loss
@@ -94,7 +94,7 @@ classdef tfw_gpu_lenetTriCon < tfw_i
       %%% bprop for all
       for i = numel(ob.tfs) : -1 : 1
         ob.tfs{i} = bprop(ob.tfs{i});
-        wait(gpuDevice);
+        ob.ab.sync();
       end
       
       %%% Internal Input --> Outer Input: unnecessary here

@@ -1,4 +1,4 @@
-function mnist_small_tr_cpu_lenetDropout()
+function mnist_small_tr_lenetDropout()
 %% put all the stuff in a static method if you like
 %% init dag: from file or from scratch
 beg_epoch = 2;
@@ -15,7 +15,7 @@ end
 h.beg_epoch = beg_epoch;
 h.num_epoch = 30;
 h.batch_sz = 128;
-h.dir_mo = fullfile(dag_path.root, 'examples/mo_zoo/mnist_small/cpu_lenetDropout');
+h.dir_mo = fullfile(dag_path.root, 'examples/mo_zoo/mnist_small/lenetDropout');
 fn_data  = fullfile(dag_path.root, 'examples/data/mnist_small_cv5/imdb.mat');
 %% (re-)initialize parameters
 % The parameters can be set when h was constructed.
@@ -28,8 +28,8 @@ h = init_params(h);
 % e.g., layer-wise step size, L-BFGS
 h = init_opt(h);
 %% CPU or GPU
-h.the_dag = to_cpu( h.the_dag );
-% h.the_dag = to_gpu( h.the_dag );
+% h.the_dag = to_cpu( h.the_dag );
+h.the_dag = to_gpu( h.the_dag );
 %% do the training
 [X, Y] = load_tr_data(fn_data);
 train(h, X,Y);

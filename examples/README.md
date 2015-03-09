@@ -11,10 +11,11 @@ the common feed forward neural network, or as complicated as the TODO. The wrapp
 ## Purposes of the Examples
 It is suggested that the following examples are read sequentially:
 
-1. `tfw_xpu_lenetDropout` and `mnist_small_tr_xpu_lenetDropout`. The "LeNet" for mnist dataset and its caller, where `xpu` means cpu or gpu version. It demonstrates:
-  - How to set the connection of a network
-  - How to initialize the parameters with customized strategies, e.g., Gaussian with std invovling number of fan-in and fan-out
-  - How to apply a certain numeric optimization, e.g., SGD with different step size at each layer 
+1. `tfw_lenetDropout` and `mnist_small_tr_lenetDropout`. The "LeNet" for mnist dataset and its caller, which demonstrate how to:
+  - switch between CPU or GPU computation
+  - set the connection of a network
+  - initialize the parameters with customized strategies, e.g., Gaussian with std involving number of fan-in and fan-out
+  - apply a certain numeric optimization, e.g., SGD with different step size at each layer 
 
-2. `tfw_xpu_lenetTriCon`, `mnist_small_xpu_lenetTriCon`: The modified "LeNet" with triangular connection (i.e., a non-trivial directed acyclic connection) at the second last layer and its caller, where `xpu` means CPU or GPU version. It demonstrates:
-  - How to set the triangular connection
+2. `tfw_lenetTriCon`, `mnist_small_lenetTriCon`: The modified "LeNet" with triangular connection (i.e., a non-trivial directed acyclic connection) at the second last layer and its caller, which demonstrate how to:
+  - set the triangular connection

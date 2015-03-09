@@ -1,14 +1,14 @@
 function mnist_small_te()
 %% init dag: from file 
 fn_mo = 'dag_epoch_10.mat';
-dir_mo = fullfile(vl_rootnn,'\examples_dag\mo_zoo\mnist_small\gpu_lenet');
+dir_mo = fullfile(dag_path.root(),'\examples_dag\mo_zoo\mnist_small\lenetDropout');
 ffn_mo = fullfile(dir_mo, fn_mo);
 load(ffn_mo, 'ob');
 % get ob from here
 %% config 
 % TODO: add more properties here
 ob.batch_sz = 128;
-fn_data = fullfile(vl_rootnn,'\examples\data\mnist_small_cv5\imdb.mat');
+fn_data = fullfile(dag_path.root(),'\examples\data\mnist_small_cv5\imdb.mat');
 %% do the training
 [X, Y] = load_te_data(fn_data);
 Ypre = test(ob, X);
