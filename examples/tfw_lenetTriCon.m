@@ -13,7 +13,7 @@ classdef tfw_lenetTriCon < tfw_i
   
   methods 
     
-    function ob = tfw_cpu_lenetTriCon()
+    function ob = tfw_lenetTriCon()
     % Initialize the DAG net
     
       %%% set the connection structure

@@ -69,6 +69,9 @@ for i = 1 : numel(rr)
 end
 
 function [X,Y] = load_tr_data(fn_data)
+if ( ~exist(fn_data,'file') )
+  get_and_save_mnist_small(fn_data);
+end
 load(fn_data);
 ind_tr = find( images.set == 1 );
 

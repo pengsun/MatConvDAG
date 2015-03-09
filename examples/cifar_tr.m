@@ -76,6 +76,13 @@ h.tfs{11}.pad    = 0;
 
 
 function [X,Y] = load_tr_data(fn_data)
+if ( ~exist(fn_data,'file') )
+  tmp_dir = fullfile( fileparts(fn_data) );
+  imdb = get_cifar( tmp_dir ); %#ok<NASGU>
+  save(fn_data, '-struct', 'imdb');
+  clear imdb;
+end
+
 load(fn_data);
 ind_tr = find( images.set == 1 );
 

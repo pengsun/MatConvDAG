@@ -17,6 +17,9 @@ h.num_epoch = 200;
 h.batch_sz = 128;
 h.dir_mo = fullfile(dag_path.root, 'examples/mo_zoo/mnist_small/lenetTriCon');
 fn_data  = fullfile(dag_path.root, 'examples/data/mnist_small_cv5/imdb.mat');
+%% CPU or GPU
+% h.the_dag = to_cpu( h.the_dag );
+h.the_dag = to_gpu( h.the_dag );
 %% do the training
 [X, Y] = load_tr_data(fn_data);
 train(h, X,Y);
@@ -30,6 +33,9 @@ load(fn_mo, 'ob');
 % ob loaded and returned
 
 function [X,Y] = load_tr_data(fn_data)
+if ( ~exist(fn_data,'file') )
+  get_and_save_mnist_small(fn_data);
+end
 load(fn_data);
 ind_tr = find( images.set == 1 );
 
