@@ -1,4 +1,4 @@
-classdef tfw_cpu_lenetDropout < tfw_i
+classdef tfw_lenetDropout < tfw_i
   %TFW_LENETDROPOUT Summary of this class goes here
   %   Detailed explanation goes here
   
@@ -7,15 +7,15 @@ classdef tfw_cpu_lenetDropout < tfw_i
   
   methods 
     
-    function ob = tfw_cpu_lenetDropout()
+    function ob = tfw_lenetDropout()
     % Initialize the DAG net
     
       %%% set the connection structure
-      f = 1; % intentionally inappropriate ratio
+      f = 1; % an intentionally inappropriate ratio
       % 1: conv, param
       tfs{1}        = tf_conv();
-      tfs{1}.p(1).a = f*randn(5,5,1,20, 'single'); % kernel
-      tfs{1}.p(2).a = zeros(1, 20, 'single'); % bias
+      tfs{1}.p(1).a = ob.ab.cvt_data( f*randn(5,5,1,20, 'single') ); % kernel
+      tfs{1}.p(2).a = ob.ab.cvt_data( zeros(1, 20, 'single') ); % bias
       % 2: pool
       tfs{2}   = tf_pool();
       tfs{2}.i = tfs{1}.o;
@@ -23,16 +23,16 @@ classdef tfw_cpu_lenetDropout < tfw_i
       % 3: conv, param
       tfs{3}        = tf_conv();
       tfs{3}.i      = tfs{2}.o;
-      tfs{3}.p(1).a = f*randn(5,5,20,50, 'single');
-      tfs{3}.p(2).a = zeros(1,50,'single');
+      tfs{3}.p(1).a = ob.ab.cvt_data( f*randn(5,5,20,50, 'single') );
+      tfs{3}.p(2).a = ob.ab.cvt_data( zeros(1,50,'single') );
       % 4: pool
       tfs{4}   = tf_pool();
       tfs{4}.i = tfs{3}.o;
       % 5: full connection, param
       tfs{5}        = tf_conv();
       tfs{5}.i      = tfs{4}.o;
-      tfs{5}.p(1).a = f*randn(4,4,50,500, 'single');
-      tfs{5}.p(2).a = zeros(1,500,'single');
+      tfs{5}.p(1).a = ob.ab.cvt_data( f*randn(4,4,50,500, 'single') );
+      tfs{5}.p(2).a = ob.ab.cvt_data( zeros(1,500,'single') );
       % 6: relu
       tfs{6}   = tf_relu();
       tfs{6}.i = tfs{5}.o;
@@ -44,8 +44,8 @@ classdef tfw_cpu_lenetDropout < tfw_i
       % 8: full connection, param
       tfs{8}        = tf_conv();
       tfs{8}.i      = tfs{7}.o;
-      tfs{8}.p(1).a = f*randn(1,1,500,10, 'single');
-      tfs{8}.p(2).a = zeros(1,10,'single');
+      tfs{8}.p(1).a = ob.ab.cvt_data( f*randn(1,1,500,10, 'single') );
+      tfs{8}.p(2).a = ob.ab.cvt_data( zeros(1,10,'single') );
       % 9: loss
       tfs{9}      = tf_loss_lse();
       tfs{9}.i(1) = tfs{8}.o;
@@ -63,11 +63,14 @@ classdef tfw_cpu_lenetDropout < tfw_i
     
     function ob = fprop(ob)
        %%% Outer Input --> Internal Input
-       ob.tfs{1}.i.a    = ob.i(1).a; %
-       ob.tfs{9}.i(2).a = ob.i(2).a; %
+       ob.tfs{1}.i.a    = ob.ab.cvt_data( ob.i(1).a ); %
+       ob.tfs{9}.i(2).a = ob.ab.cvt_data( ob.i(2).a ); %
        
        %%% fprop for all
-       ob.tfs = cellfun(@fprop, ob.tfs, 'uniformoutput',false);
+       for i = 1 : numel( ob.tfs )
+         ob.tfs{i} = fprop(ob.tfs{i});
+         ob.ab.sync();
+       end
        
        %%% Internal Output --> Outer Output: set the loss
        ob.o.a = ob.tfs{end}.o.a;
@@ -77,8 +80,10 @@ classdef tfw_cpu_lenetDropout < tfw_i
       %%% Outer output --> Internal output: unnecessary here
       
       %%% bprop for all
-      ob.tfs(end:-1:1) = cellfun(@bprop, ob.tfs(end:-1:1),...
-        'uniformoutput', false);
+      for i = numel(ob.tfs) : -1 : 1
+        ob.tfs{i} = bprop(ob.tfs{i});
+        ob.ab.sync();
+      end
       
       %%% Internal Input --> Outer Input: unnecessary here
     end % bprop

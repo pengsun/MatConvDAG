@@ -75,13 +75,13 @@ classdef tfw_cpu_lenetTriCon < tfw_i
     
     function ob = fprop(ob)
        %%% Outer Input --> Internal Input
-       ob.tfs{1}.i.a     = ob.i(1).a; % X_bat
-       ob.tfs{11}.i(2).a = ob.i(2).a; % Y_bat
+       ob.tfs{1}.i.a     = ob.ab.cvt_data( ob.i(1).a ); % X_bat
+       ob.tfs{11}.i(2).a = ob.ab.cvt_data( ob.i(2).a ); % Y_bat
        
        %%% fprop for all
        for i = 1 : numel( ob.tfs )
          ob.tfs{i} = fprop(ob.tfs{i});
-         wait(gpuDevice);
+         ob.ab.sync();
        end
        
        %%% Internal Output --> Outer Output: set the loss
@@ -94,7 +94,7 @@ classdef tfw_cpu_lenetTriCon < tfw_i
       %%% bprop for all
       for i = numel(ob.tfs) : -1 : 1
         ob.tfs{i} = bprop(ob.tfs{i});
-        wait(gpuDevice);
+        ob.ab.sync();
       end
       
       %%% Internal Input --> Outer Input: unnecessary here
