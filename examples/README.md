@@ -19,3 +19,6 @@ It is suggested that the following examples are read sequentially:
 
 2. `tfw_lenetTriCon`, `mnist_small_lenetTriCon`: The modified "LeNet" with triangular connection (i.e., a non-trivial directed acyclic connection) at the second last layer and its caller, which demonstrate how to:
   - set the triangular connection
+
+3. `tfw_cifar` and `cifar_tr.m`. The same network structure with that of `vlfeat/matconvnet/examples/cnn_cifar.m` for cifar-10 dataset. They demonstrate:
+  - The Abstraction Penalty of the DAG class hierarchy in this project is negligible 
