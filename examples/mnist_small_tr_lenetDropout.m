@@ -28,8 +28,8 @@ h = init_params(h);
 % e.g., layer-wise step size, L-BFGS
 h = init_opt(h);
 %% CPU or GPU
-% h.the_dag = to_cpu( h.the_dag );
-h.the_dag = to_gpu( h.the_dag );
+h.the_dag = to_cpu( h.the_dag );
+% h.the_dag = to_gpu( h.the_dag );
 %% do the training
 [X, Y] = load_tr_data(fn_data);
 train(h, X,Y);
