@@ -31,6 +31,13 @@ classdef tf_conv_mask < tf_conv
       ob.p(1).d = ob.mask .* ob.p(1).d;
     end % bprop
     
+    function ob = cvt_data(ob)
+      % convert internal state
+      ob.mask = ob.ab.cvt_data( ob.mask );
+      % convert other
+      ob = cvt_data@tf_i(ob);
+    end % cvt_data
+    
   end % methods
   
 end

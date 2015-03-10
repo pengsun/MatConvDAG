@@ -8,7 +8,7 @@ classdef arch_gpu < arch_i
   methods
     
     function rdata = cvt_data(ob, data)
-      rdata = gpuArray(data);
+      rdata = gpuArray(single(data));
     end
     
     function sync(ob)

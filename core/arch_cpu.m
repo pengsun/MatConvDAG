@@ -8,7 +8,7 @@ classdef arch_cpu < arch_i
   methods
     
     function rdata = cvt_data(ob, data)
-      rdata = gather(data);
+      rdata = single( gather(data) );
     end
     
     function sync(ob)
