@@ -1,4 +1,4 @@
-classdef convdag
+classdef convdag < handle
   %convdag A thin wrapper for the DAG, managing training and testing
   %   Detailed explanation goes here
   
@@ -7,7 +7,6 @@ classdef convdag
     beg_epoch; % beggining epoch
     num_epoch; % number of epoches
     batch_sz; % batch size
-    dir_mo; % directory for models
     is_tightMem; % if tight memory?
   end
   
@@ -19,12 +18,16 @@ classdef convdag
     cc; % calling context
   end
   
+  events
+    end_ep;
+    end_bat;
+  end
+  
   methods
     function ob = convdag()
       ob.beg_epoch = 1; % begining epoch
       ob.num_epoch = 5; % number of epoches
       ob.batch_sz = 128; % batch size
-      ob.dir_mo = './mo_zoo/foobar'; % directory for models
       ob.is_tightMem = false;
       
       ob.cc = call_cntxt();
@@ -47,9 +50,9 @@ classdef convdag
         ob = train_one_epoch(ob, X,Y);
         ob = post_train_one_epoch(ob, t, size(X,4));
         
-        % save the result
-        fn_cur_mo = fullfile(ob.dir_mo, sprintf('dag_epoch_%d.mat',t) );
-        ob = save_model (ob, fn_cur_mo);
+        % notify end of eporch
+        notify(ob, 'end_ep');
+        
       end % for t
       
     end % train
@@ -120,8 +123,6 @@ classdef convdag
       % indicate it's the training stage
       ob.cc.is_tr = true;
       
-      % make output directory for the model to be saved
-      if ( ~exist(ob.dir_mo, 'file') ), mkdir(ob.dir_mo); end
     end % prepare_train
     
     %%% for training one epoch
@@ -162,12 +163,12 @@ classdef convdag
         
         % print 
         fprintf('epoch %d, batch %d of %d, ',...
-          ob.cc.epoch_cnt, i_bat, hbat.num_bat);
+          ob.cc.epoch_cnt, ob.cc.iter_cnt, hbat.num_bat);
         fprintf('time = %.3fs, speed = %.0f images/s\n',...
           t_elapsed, ob.batch_sz/t_elapsed);
-        
+
       end % for ii
-    
+      
     end % train_one_eporch
     
     function ob = post_train_one_epoch (ob, i_epoch, varargin)
@@ -219,11 +220,6 @@ classdef convdag
       ob.the_dag = cl_p_d( ob.the_dag );
       
     end % clear_im_data
-    
-    function ob = save_model(ob, fn)
-      ob = clear_im_data(ob);
-      save(fn, 'ob');
-    end % save_model
     
   end % methods
   

@@ -2,7 +2,7 @@ function mnist_small_tr_lenetDropout()
 %% put all the stuff in a static method if you like
 %% init dag: from file or from scratch
 beg_epoch = 2;
-dir_mo = fullfile(dag_path.root, 'examples/mo_zoo/mnist_small/cpu_lenetDropout');
+dir_mo = fullfile(dag_path.root, 'examples2/mo_zoo/mnist_small/cpu_lenetDropout');
 fn_mo = fullfile(dir_mo, sprintf('dag_epoch_%d.mat', beg_epoch-1) );
 if ( exist(fn_mo, 'file') )
   h = create_dag_from_file (fn_mo);
@@ -15,8 +15,7 @@ end
 h.beg_epoch = beg_epoch;
 h.num_epoch = 30;
 h.batch_sz = 128;
-h.dir_mo = fullfile(dag_path.root, 'examples/mo_zoo/mnist_small/lenetDropout');
-fn_data  = fullfile(dag_path.root, 'examples/data/mnist_small_cv5/imdb.mat');
+fn_data  = fullfile(dag_path.root, 'examples2/data/mnist_small_cv5/imdb.mat');
 %% (re-)initialize parameters
 % The parameters can be set when h was constructed.
 % They can also be (re)set after h was constructed with customized 
@@ -28,8 +27,15 @@ h = init_params(h);
 % e.g., layer-wise step size, L-BFGS
 h = init_opt(h);
 %% CPU or GPU
-h.the_dag = to_cpu( h.the_dag );
-% h.the_dag = to_gpu( h.the_dag );
+% h.the_dag = to_cpu( h.the_dag );
+h.the_dag = to_gpu( h.the_dag );
+%% peek and do something (printing, plotting, saving, etc)
+hpeek = convdag_peek();
+% plot training loss
+addlistener(h, 'end_ep', @hpeek.plot_loss);
+% save model
+hpeek.dir_mo = dir_mo;
+addlistener(h, 'end_ep', @hpeek.save_mo);
 %% do the training
 [X, Y] = load_tr_data(fn_data);
 train(h, X,Y);

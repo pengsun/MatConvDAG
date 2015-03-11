@@ -6,7 +6,8 @@ the common feed forward neural network, or as complicated as the TODO. The wrapp
 ## Desgin Concept
 - The whole DAG is viewed as a big transformer, derived from `tfw_i`, i.e., a DAG (transformer) can be the composition of many small DAGs (transformers). 
 - Explicit CPU version or GPU version
-- The net `convdag` is thin wrapper of the DAG, managing the training and testing
+- The class `convdag.m` is thin wrapper of the DAG, managing the training and testing
+- An auxiliary class `convdag_peek.m` probes the state of `convdag.m` and does the job like printing/plotting/saving (the Observer Design Pattern).  
 
 ## Purposes of the Examples
 It is suggested that the following examples are read sequentially:
@@ -15,7 +16,8 @@ It is suggested that the following examples are read sequentially:
   - switch between CPU or GPU computation
   - set the connection of a network
   - initialize the parameters with customized strategies, e.g., Gaussian with std involving number of fan-in and fan-out
-  - apply a certain numeric optimization, e.g., SGD with different step size at each layer 
+  - apply a certain numeric optimization, e.g., SGD with different step size at each layer
+  - set the observer and plot, save model, etc. 
 
 - `tfw_MLP` and `mnist_small_tr_MLP`. A two hidden layers MLP for mnist and its caller, which demonstrate how to
   - Build the DAG recursively using `tfw_xxx`

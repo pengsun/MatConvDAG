@@ -3,10 +3,10 @@ function [err_ep, err] =  mnist_small_te_all(varargin)
 % config 
 % TODO: add more properties here
 if ( nargin==0 )
-  ep = 1 : 30;
+  ep = 1 : 10;
   batch_sz = 128;
-  dir_mo = fullfile(dag_path.root,'\examples\mo_zoo\mnist_small\lenetDropout');
-  fn_data = fullfile(dag_path.root,'\examples\data\mnist_small_cv5\imdb.mat');
+  dir_mo = fullfile(dag_path.root,'\examples2\mo_zoo\mnist_small\MLP');
+  fn_data = fullfile(dag_path.root,'\examples2\data\mnist_small_cv5\imdb.mat');
   fn_mo_tmpl = 'dag_epoch_%d.mat';
 elseif ( nargin==5 )
   ep = varargin{1};
