@@ -1,7 +1,7 @@
 function cifar_tr()
 %% init dag: from file or from scratch
 beg_epoch = 4;
-dir_mo = fullfile(dag_path.root,'examples2/mo_zoo/cifar/cifar');
+dir_mo = fullfile(dag_path.root,'examples/mo_zoo/cifar/cifar');
 fn_mo = fullfile(dir_mo, sprintf('dag_epoch_%d.mat', beg_epoch-1) );
 if ( exist(fn_mo, 'file') )
   h = create_dag_from_file (fn_mo);
@@ -14,7 +14,7 @@ end
 h.beg_epoch = beg_epoch;
 h.num_epoch = 20;
 h.batch_sz = 100;
-fn_data  = fullfile(dag_path.root, 'examples2/data/cifar/imdb.mat');
+fn_data  = fullfile(dag_path.root, 'examples/data/cifar/imdb.mat');
 %% initialize parameters
 h.the_dag = set_and_init_params(h.the_dag);
 %% gpu or cpu
