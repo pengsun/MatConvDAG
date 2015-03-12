@@ -2,7 +2,7 @@ function mnist_small_tr_lenetDropout()
 %% put all the stuff in a static method if you like
 %% init dag: from file or from scratch
 beg_epoch = 2;
-dir_mo = fullfile(dag_path.root, 'examples/mo_zoo/mnist_small/cpu_lenetDropout');
+dir_mo = fullfile(dag_path.root, 'examples/mo_zoo/mnist_small/lenetDropout');
 fn_mo = fullfile(dir_mo, sprintf('dag_epoch_%d.mat', beg_epoch-1) );
 if ( exist(fn_mo, 'file') )
   h = create_dag_from_file (fn_mo);

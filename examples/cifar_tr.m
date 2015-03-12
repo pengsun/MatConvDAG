@@ -12,7 +12,7 @@ end
 %% config 
 % TODO: add more properties here
 h.beg_epoch = beg_epoch;
-h.num_epoch = 20;
+h.num_epoch = 30;
 h.batch_sz = 100;
 fn_data  = fullfile(dag_path.root, 'examples/data/cifar/imdb.mat');
 %% initialize parameters
