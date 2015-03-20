@@ -18,7 +18,10 @@ classdef tf_loss_lse < tf_i
       pre = squeeze(ob.i(1).a);
       tar = ob.i(2).a;
       ob.res = pre - tar;
-      ob.sz = size( ob.i(1).a );
+      
+      ob.sz  = size( ob.i(1).a );
+      ob.res = reshape(ob.res, ...
+        [prod(ob.sz(1:end-1)), ob.sz(end)] ); 
       
       ob.o.a = 0.5 * sum( (ob.res).^2, 1 ); 
     end % fprop
@@ -26,8 +29,7 @@ classdef tf_loss_lse < tf_i
     function ob = bprop(ob)
       % just using the "cache"
       %ob.i(1).d = (ob.res) .* ob.o.d;  
-      ob.i(1).d = ob.res;
-      ob.i(1).d = reshape(ob.i(1).d, ob.sz );
+      ob.i(1).d = reshape(ob.res, ob.sz );
     end % bprop
     
   end
