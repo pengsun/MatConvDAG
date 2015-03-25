@@ -11,7 +11,8 @@ classdef tfw_lenetDropout < tfw_i
     % Initialize the DAG net
     
       %%% set the connection structure
-      f = 1; % an intentionally inappropriate ratio
+      f = 1; %%% an intentionally inappropriate ratio
+             %%% NOTE that all the parameters can be reset outside!
       % 1: conv, param
       tfs{1}        = tf_conv();
       tfs{1}.p(1).a = ob.ab.cvt_data( f*randn(5,5,1,20, 'single') ); % kernel
