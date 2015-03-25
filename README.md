@@ -1,8 +1,8 @@
 #MatConvDAG
-Matlab Convolutional Directed Acyclic (**DAG**) Graph. This project develops on top of [vlfeat/matconvnet](https://github.com/vlfeat/matconvnet) and benefits from the efficient GPU computation APIs therein.
+Matlab Convolutional Directed Acyclic Graph (**DAG**) . This project develops on top of [vlfeat/matconvnet](https://github.com/vlfeat/matconvnet) and benefits from the efficient GPU computation APIs therein.
 
 ## Purposes/Features
-There is already a DAG wrapper in vlfeat/matconvnet, which, however, addresses a slightly different problem domain that this project intends for. Here, the main purposes/features are
+There is already a DAG wrapper in vlfeat/matconvnet, which, however, addresses a slightly different problem domain with what this project intends for. Here, the main purposes/features are
 
 - The DAG is represented by a Graph Transformer Network (**GTN**) consisting of interleaved hidden units and transformers. See `./core/README.md`
   - The DAG can be built recursively, i.e., a DAG can be seen as a *node* that is embedded in a higher level DAG, and so on. This should ease the mannual DAG construction for your own task by simply writing Matlab scripts.
