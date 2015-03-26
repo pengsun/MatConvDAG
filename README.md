@@ -50,8 +50,8 @@ When it is done, cd to directory `examples` and run the m files for examples. Se
 ## Dependecy
 This project keeps an eye on [vlfeat/matconvnet](https://github.com/vlfeat/matconvnet) and will update (if needed) whenever there is a new commit. The last vlfeat/matconvnet commit that this project tests on and is compatible with:
 
-[Commits on Feb 26, 2015](https://github.com/vlfeat/matconvnet/commit/f9f757fa2f948ce791e3417ed910dc0fd42dbd81)
+[Commits on Mar 26, 2015](https://github.com/vlfeat/matconvnet/commit/6200ef3aff6a6211dffdc60522be9b9bd9cbb461)
 
-f9f757fa2f948ce791e3417ed910dc0fd42dbd81
+6200ef3
 
 
