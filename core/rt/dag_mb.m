@@ -66,7 +66,7 @@ classdef dag_mb < handle
         t_elapsed = tic; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      
         % get batch 
-        data = get_bd(te_bdg, i_bat);
+        data = get_bd_orig(te_bdg, i_bat);
         
         % set source nodes
         for kk = 1 : numel( ob.the_dag.i )

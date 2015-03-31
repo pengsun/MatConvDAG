@@ -5,8 +5,8 @@ function [err_ep, err] =  mnist_small_te_all(varargin)
 if ( nargin==0 )
   ep = 1 : 5;
   batch_sz = 128;
-  dir_mo = fullfile(dag_path.root,'\examples\mo_zoo\mnist_small\lenetTriCon');
-  fn_data = fullfile(dag_path.root,'\examples\data\mnist_small_cv5\imdb.mat');
+  dir_mo = fullfile(dag_path.root,'\examples2\mo_zoo\mnist_small\lenetTriCon');
+  fn_data = fullfile(dag_path.root,'\examples2\data\mnist_small_cv5\imdb.mat');
   fn_mo_tmpl = 'dag_epoch_%d.mat';
 elseif ( nargin==5 )
   ep = varargin{1};
@@ -19,7 +19,7 @@ else
 end
 
 % load data
-[X, Y] = load_te_data(fn_data);
+te_bdg = load_te_data(fn_data, batch_sz);
 
 % print
 fprintf('data: %s\n', fn_data);
@@ -43,12 +43,11 @@ for i = 1 : numel(ep)
   load(ffn_mo, 'ob');
   % get ob from here
  
-  ob.batch_sz = batch_sz;
-  Ypre = test(ob, X);
+  Ypre = test(ob, te_bdg);
   Ypre = gather(Ypre);
 
   % show the error
-  err(1+i) = get_cls_err(Ypre, Y);
+  err(1+i) = get_cls_err(Ypre, te_bdg.Y);
   err_ep = [err_ep, ep(i)];
   plot_err(hax, err_ep, err)
   
@@ -58,12 +57,14 @@ for i = 1 : numel(ep)
 end
 
 
-function [X,Y] = load_te_data(fn_data)
+function te_bdg = load_te_data(fn_data, bs)
 load(fn_data);
 ind_te = find( images.set == 3 );
 
 X = images.data(:,:,:, ind_te);
 Y = images.labels(:, ind_te);
+
+te_bdg = bdg_memXd4Yd2(X,Y, bs);
 
 function err = get_cls_err(Ypre, Y)
 [~, label_pre] = max(Ypre,[], 1);

@@ -1,6 +1,6 @@
 function mnist_small_te()
 %% init dag: from file 
-fn_mo = 'dag_epoch_10.mat';
+fn_mo = 'dag_epoch_510.mat';
 dir_mo = fullfile(dag_path.root(),'\examples_dag\mo_zoo\mnist_small\lenetDropout');
 ffn_mo = fullfile(dir_mo, fn_mo);
 load(ffn_mo, 'ob');

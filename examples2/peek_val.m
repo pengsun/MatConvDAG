@@ -27,7 +27,7 @@ classdef peek_val < handle
       for i_bat = 1 : nb
         t_elapsed = tic; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % get batch 
-        data = get_bd(ob.v_bdg, i_bat);
+        data = get_bd_orig(ob.v_bdg, i_bat);
         % set source nodes
         for kk = 1 : numel( h.the_dag.i )
           h.the_dag.i(kk).a = data{kk};
@@ -43,7 +43,8 @@ classdef peek_val < handle
         t_elapsed = toc(t_elapsed); %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         % print 
-        fprintf('validating: batch %d of %d, ', i_bat, nb);
+        fprintf('epoch %d, validating: batch %d of %d, ',...
+          h.cc.epoch_cnt, i_bat, nb);
         bs = get_bdsz(ob.v_bdg, i_bat);
         fprintf('time = %.3fs, speed = %.0f images/s\n',...
           t_elapsed, bs/t_elapsed);
@@ -53,7 +54,7 @@ classdef peek_val < handle
       
       %%% plot
       figure(41);
-      ob.yy(end+1) = get_cls_err(Ypre, ob.v_bdg.Y);
+      ob.yy(end+1) = get_cls_err( gather(Ypre), ob.v_bdg.Y);
       
       hold on;
       plot( (1 : numel(ob.yy)), ob.yy, 'rx-', 'linewidth',2);
