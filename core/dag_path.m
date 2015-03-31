@@ -23,6 +23,7 @@ classdef dag_path
       rp = dag_path.root();
       addpath(fullfile(rp, 'core')) ;
       addpath(fullfile(rp, 'core/tfw')) ;
+      addpath(fullfile(rp, 'core/rt')) ;
     end
     
     function rp = root ()

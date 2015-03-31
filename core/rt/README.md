@@ -1,0 +1,1 @@
+This folder contains routines for DAG (training, testing, batch data generator, etc.)
