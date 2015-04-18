@@ -18,7 +18,7 @@ dag_path.setup;
 ``` 
 or doing this manually (e.g., Matlab Desktop -> File menu -> Set Path)
 
-When it is done, cd to directory `examples` and run the m files for examples. See `examples/README.md` therein.
+When it is done, cd to directory `examples2` and run the m files for examples. The files in `examples` are deprecated.
 
 
 ## Conventions and Workflow
