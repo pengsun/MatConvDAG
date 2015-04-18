@@ -20,6 +20,15 @@ or doing this manually (e.g., Matlab Desktop -> File menu -> Set Path)
 
 When it is done, cd to directory `examples` and run the m files for examples. See `examples/README.md` therein.
 
+
+## Conventions and Workflow
+This project always adopts SGD training with mini-batch and hence takes a **Data-Net-Manager** workflow:
+* **Data**: use the data batch generator `bdg_xxx` to produce mini-batch fed to the net. Write your own customized data generator by deriving from `bdg_i.m` if necessary (e.g., read image files in a directory or from a remote database).
+* **Net**: i.e., the DAG. Create the DAG (including the loss) by manually connecting transformers `tf_xxx()` and hidden units `n_data()`.
+* **Manager**: use `dag_mb` to run the training and testing routines. 
+
+Every thing is plug-and-play. 
+
 ## TODO
  - DAG/GTN implementations (wrappers)
    - parametric transformer 
