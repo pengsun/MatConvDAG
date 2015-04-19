@@ -21,7 +21,7 @@ classdef tf_i
     %%%
     function ob = tf_i()
       ob.cc = call_cntxt();
-      ob.ab = arch_factory.create();
+      ob.ab = arch_cpu();
     end
     
     %%% data managment
@@ -59,12 +59,12 @@ classdef tf_i
     
     %%% data conversion
     function ob = to_cpu(ob)
-      ob.ab = arch_factory.create('cpu');
+      ob.ab = arch_cpu();
       ob = cvt_data(ob);
     end % to_cpu
     
     function ob = to_gpu(ob)
-      ob.ab = arch_factory.create('gpu');
+      ob.ab = arch_gpu();
       ob = cvt_data(ob);
     end % to_gpu
     

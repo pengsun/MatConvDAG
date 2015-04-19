@@ -16,8 +16,8 @@ h.num_epoch = 200;
 batch_sz = 128;
 fn_data  = fullfile(dag_path.root, 'examples2/data/mnist_small_cv5/imdb.mat');
 %% CPU or GPU
-% h.the_dag = to_cpu( h.the_dag );
-h.the_dag = to_gpu( h.the_dag );
+h.the_dag = to_cpu( h.the_dag );
+% h.the_dag = to_gpu( h.the_dag );
 %% peek and do something (printing, plotting, saving, etc)
 hpeek = peek();
 % plot training loss

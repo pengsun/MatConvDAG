@@ -24,7 +24,7 @@ classdef tfw_i < tf_i
     
     function ob = to_cpu(ob)
       % convert itself
-      ob.ab = arch_factory.create('cpu');
+      ob.ab = arch_cpu();
       ob = cvt_data(ob);
       % convert every transformer
       ob.tfs = cellfun(@to_cpu, ob.tfs, 'uniformoutput',false); 
@@ -32,7 +32,7 @@ classdef tfw_i < tf_i
     
     function ob = to_gpu(ob)
       % convert itself
-      ob.ab = arch_factory.create('gpu');
+      ob.ab = arch_gpu();
       ob = cvt_data(ob);
       % convert every transformer
       ob.tfs = cellfun(@to_gpu, ob.tfs, 'uniformoutput',false); 
