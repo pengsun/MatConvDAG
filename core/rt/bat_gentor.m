@@ -32,6 +32,9 @@ classdef bat_gentor
         ib = varargin{1};
       end
       
+      % safe guard: circulate if ib > num_batch
+      ib = 1 + mod(ib-1, ob.num_bat);
+      
       i_beg = 1 + (ib - 1) * ob.bat_sz;
       i_end =           ib * ob.bat_sz;
       i_end = min( i_end, numel(ob.ind_all) );
@@ -45,6 +48,9 @@ classdef bat_gentor
       else
         ib = varargin{1};
       end
+      
+      % safe guard: circulate if ib > num_batch
+      ib = 1 + mod(ib-1, ob.num_bat);
       
       i_beg = 1 + (ib - 1) * ob.bat_sz;
       i_end =           ib * ob.bat_sz;

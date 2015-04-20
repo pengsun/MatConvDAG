@@ -1,4 +1,4 @@
-classdef bdg_i
+classdef bdg_i < handle
   %BDG_I Batch Data Generator, interface
   %   Detailed explanation goes here
   
