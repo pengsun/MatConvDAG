@@ -62,6 +62,7 @@ This project keeps an eye on [vlfeat/matconvnet](https://github.com/vlfeat/matco
 [Commits on Apr 28, 2015](https://github.com/vlfeat/matconvnet/commit/1db6764f80e4aada8a653df7f7a9ec29b0a3e5c6)
 
 1db6764
+
 v1.0-beta11
 
 
