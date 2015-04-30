@@ -57,10 +57,12 @@ Every thing is plug-and-play.
  - [ ] Problematic when batchSize = 1 ?
 
 ## Dependecy
-This project keeps an eye on [vlfeat/matconvnet](https://github.com/vlfeat/matconvnet) and will update (if needed) whenever there is a new commit. The last vlfeat/matconvnet commit that this project tests on and is compatible with:
+This project keeps an eye on [vlfeat/matconvnet](https://github.com/vlfeat/matconvnet) and will update (if needed) whenever there is a new commit on master branch. The last vlfeat/matconvnet commit that this project tests on and is compatible with:
 
-[Commits on Mar 26, 2015](https://github.com/vlfeat/matconvnet/commit/6200ef3aff6a6211dffdc60522be9b9bd9cbb461)
+[Commits on Apr 28, 2015](https://github.com/vlfeat/matconvnet/commit/1db6764f80e4aada8a653df7f7a9ec29b0a3e5c6)
 
-6200ef3
+1db6764
+
+v1.0-beta11
 
 
