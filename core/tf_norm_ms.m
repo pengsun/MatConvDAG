@@ -15,7 +15,7 @@ classdef tf_norm_ms < tf_i
     end % tf_norm_ms
     
     function ob = fprop(ob)
-      ob.o.a = bsxfun(@minus,   ob.i.a, ob.v_mu);
+      ob.o.a = bsxfun(@minus,   ob.i.a, ob.v_mean);
       ob.o.a = bsxfun(@rdivide, ob.i.a, ob.v_std);
     end 
     
@@ -23,6 +23,14 @@ classdef tf_norm_ms < tf_i
       ob.i.d = bsxfun(@rdivide, ob.o.d, ob.v_std);
     end 
     
+    %%% data management
+    function ob = cvt_data(ob)
+      % cvt base class
+      ob = cvt_data@tf_i (ob);
+      % cvt itself
+      ob.v_mean = ob.ab.cvt_data( ob.v_mean );
+      ob.v_std  = ob.ab.cvt_data( ob.v_std  );
+    end
   end % methods
   
 end % classdef tf_norm_ms

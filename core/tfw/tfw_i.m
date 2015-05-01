@@ -37,6 +37,7 @@ classdef tfw_i < tf_i
       % convert every transformer
       ob.tfs = cellfun(@to_gpu, ob.tfs, 'uniformoutput',false); 
     end % to_gpu
+    
     %%% auxiliary
     function ob = set_cc(ob, the_cc)
       % set itself
