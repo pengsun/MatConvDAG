@@ -77,7 +77,7 @@ classdef dag_mb < handle
         ob.the_dag = fprop( ob.the_dag );
         
         % fetch and concatenate the results
-        Ypre_bat = squeeze( ob.the_dag.get_Ypre() );
+        Ypre_bat = reshape(ob.the_dag.get_Ypre(), size(data{2}) );
         if (i_bat==1), Ypre = Ypre_bat;
         else           Ypre = cat(2,Ypre,Ypre_bat); end
         t_elapsed = toc(t_elapsed); %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
